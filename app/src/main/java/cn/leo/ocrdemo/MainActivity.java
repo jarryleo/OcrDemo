@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,9 +57,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (!mInit) return;
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.textimage);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shudu);
         mTess.setImage(bitmap);
+        String boxText = mTess.getBoxText(0);
+        Log.e("BOX ", "onClick: " + boxText);
+
         String result = mTess.getUTF8Text();
-        mTxtView.setText("结果为:" + result);
+        //mTxtView.setText("结果为:" + result);
+        String result1 = Ocr2String.create(boxText, bitmap.getWidth(), bitmap.getHeight()).getResult();
+        mTxtView.setText("结果为:" + result1);
+
     }
 }
