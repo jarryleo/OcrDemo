@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 解析图片识别的数独题目
  * create by : Jarry Leo
  * date : 2018/7/19 13:37
  */
@@ -32,7 +33,7 @@ public class Ocr2String {
                 rect.set(j * cw, i * ch, j * cw + cw, i * ch + ch);
                 boolean flag = false;
                 for (BoxChar boxChar : boxCharList) {
-                    if (rect.contains(boxChar.getRect())) {
+                    if (rect.intersect(boxChar.getRect())) {
                         sb.append(boxChar.getWord());
                         flag = true;
                         break;
