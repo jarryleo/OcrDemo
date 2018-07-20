@@ -1,4 +1,4 @@
-package cn.leo.ocrdemo;
+package cn.leo.ocrdemo.ocr;
 
 import android.content.Context;
 

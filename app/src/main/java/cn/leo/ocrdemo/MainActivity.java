@@ -26,6 +26,8 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import java.io.File;
 import java.io.IOException;
 
+import cn.leo.ocrdemo.ocr.FileUtil;
+import cn.leo.ocrdemo.ocr.Ocr2String;
 import cn.leo.permission.PermissionRequest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -75,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void ocrScan(Bitmap bitmap) {
         if (!mInit) return;
-        mTess.setImage(bitmap);
         mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "123456789"); // 识别白名单
         mTess.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "!@#$%^&*()_+=-[]}{;:'\"\\|~`,./<>?"); // 识别黑名单
+        mTess.setImage(bitmap);
         String boxText = mTess.getBoxText(0);
         final String utf8Text = mTess.getUTF8Text().replace("\n", "");
         bitmap.recycle();
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
 
     private void test(int dataLength, int prevSizeW, int prevSizeH, byte[] data) {
         RenderScript rs = RenderScript.create(this);
@@ -105,12 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         in.copyFrom(data);
         yuvToRgbIntrinsic.setInput(in);
         yuvToRgbIntrinsic.forEach(out);
-
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
-
         Bitmap bmpout = Bitmap.createBitmap(prevSizeW, prevSizeH, Bitmap.Config.ARGB_8888);
-
         out.copyTo(bmpout);
         Bitmap nbmp2 = Bitmap.createBitmap(bmpout, 0, 0, bmpout.getWidth(), bmpout.getHeight(), matrix, true);
         ocrScan(nbmp2);

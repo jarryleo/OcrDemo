@@ -1,4 +1,4 @@
-package cn.leo.ocrdemo;
+package cn.leo.ocrdemo.ocr;
 
 import android.graphics.Rect;
 
@@ -33,7 +33,7 @@ public class Ocr2String {
                 rect.set(j * cw, i * ch, j * cw + cw, i * ch + ch);
                 boolean flag = false;
                 for (BoxChar boxChar : boxCharList) {
-                    if (rect.intersect(boxChar.getRect())) {
+                    if (rect.contains(boxChar.getRect())) {
                         sb.append(boxChar.getWord());
                         flag = true;
                         break;
